@@ -1,5 +1,10 @@
+import { StmtModifier } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { product } from '../core/product';
+import { CalculService } from '../services/calcul.service';
+import { ProductConsumerService } from '../services/product-consumer.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -8,21 +13,37 @@ import { product } from '../core/product';
 })
 export class ProductComponent implements OnInit {
 products:product[]=[]
-  constructor() { }
+m!:number
+  constructor(private _productService: ProductService,private calcul:CalculService,private ProductConsumer:ProductConsumerService,private router:Router) { }
 
   ngOnInit(): void {
-    this.products= [
-      {id: '1', title: 'T-shirt 1', price: 18, quantity: 0, like: 0, picture : 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Shakira_for_VOGUE_in_2021_2.png/240px-Shakira_for_VOGUE_in_2021_2.png'},
-      {id: '2', title: 'T-shirt 2', price: 21, quantity: 10, like: 0, picture : 'https://content-management-files.canva.com/cdn-cgi/image/f=auto,q=70/2fdbd7ab-f378-4c63-8b21-c944ad2633fd/header_t-shirts2.jpg'},
-      {id: '3', title: 'T-shirt 3', price: 16, quantity: 8, like: 0, picture : 'https://content-management-files.canva.com/cdn-cgi/image/f=auto,q=70/2fdbd7ab-f378-4c63-8b21-c944ad2633fd/header_t-shirts2.jpg'},
-    ]
-    
-    
+   
+   // this.products=this._productService.productsList;
+   this.ProductConsumer.getProducts().subscribe({
+    next :(data)=> this.products = data,
+    error : (error) => console.log(error),
+    complete : ()=> console.log("!!!1 done ")
+  })
+     
   }
   Buy(id:string){
     this.products.map((product)=>product.id.match(id)&&product.quantity--)
+    }
+    message(){
+      this.calcul.getNumberOf(this.products,"quantity",0)
+    }
+    supprimer(id:string){
+      this.ProductConsumer.deleteProduct(id).subscribe({
+        next: ()=>this.router.navigateByUrl('/products'),
+        error: (error)=>console.log(error),
+        complete:()=>console.log("Supprimer avec succes")
+        
+      })
+      window.location.reload()
+     
 
     }
+   
   }
 
 

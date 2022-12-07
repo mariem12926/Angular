@@ -12,7 +12,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { TemplateDrivenFormComponent } from './template-driven-form/template-driven-form.component';
+import { TodoListComponent } from './todo-list/todo-list.component';
+import {HttpClientModule} from '@angular/common/http';
+import { ModifierProductComponent } from './modifier-product/modifier-product.component';
 
+//annotation/decorateur
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,12 +27,16 @@ import { TemplateDrivenFormComponent } from './template-driven-form/template-dri
     NotFoundComponent,
     ArticlesComponent,
     AddProductComponent,
-    TemplateDrivenFormComponent
+    TemplateDrivenFormComponent,
+    TodoListComponent,
+    ModifierProductComponent
+   
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
 
   ],
   //declaration des services 
